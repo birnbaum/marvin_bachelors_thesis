@@ -1,0 +1,65 @@
+Edge computing is a promising, emerging paradigm in the area of distributed
+systems and while still primarily being a theoretical concept, the rise of new
+domains like Internet of Things (IoT) establishes numerous areas of application
+\cite{premsankar2018}. Because of the decentralized nature of edge computing,
+new devices at the edge of the network are essential for many of these
+approaches. In some cases though, edge devices do not have access to the
+electrical grid and require on-site energy generation. %TODO give example
+Large-scale data centers already profit from integration of on-site renewable
+energy generation and are able to achieve significant cost reductions while also
+reducing their greenhouse gas emissions. \cite{tu2013}. In its current state
+however, renewable energy generation is rather volatile and unable to supply
+sufficient uninterrupted power on its own \cite{rostirolla2022}, resulting in a
+problem for edge devices without a connection to the electrical grid. If devices
+under these circumstances aim to operate self-sufficiently and maximize uptime,
+their resources need to be managed dynamically, relative to current on-site
+renewable energy production.
+
+To allow for dynamic resource management, matching the system's energy
+consumption to the on-site production, numerous approaches for power management
+pose a viable option. Power management, in this case energy proportional
+computing, can generally be pursued on a hardware- and software-level
+\cite{barroso2007}. On a hardware-level, dynamic voltage and frequency scaling
+(DVFS), the dynamic adjustment of both voltage and frequency to reduce dynamic
+power consumption, is vital for this intention as the \textsc{CPU} traditionally
+consumes the most power in a system.
+
+Recent Research in the area of energy-aware resource management in edge/fog
+computing utilizing DVFS for power management mainly relies on simulations to
+predict a real-world outcome \cite{wiesner2022, karimiafshar2020, toor2019}.
+Most simulators make the assumption that computational load can be adjusted in a
+way that energy consumption perfectly matches the energy production \cite{leaf,
+cloudsim, ifogsim, chameleon}. While the reasoning for using simulations as
+opposed to real hardware testbeds may be justified and opportune for most
+research projects, it remains unclear how close these assumptions are to reality
+and how this may change the accuracy of the predictions and consequently
+research outcomes.
+
+\section{Testbed Requirements}
+
+This bachelor's thesis proposes a hardware testbed for renewable-aware resource
+management in edge computing, capable of dynamically adjusting its computational
+load relative to the on-site renewable-energy production. In order to examine
+the assumption of energy-aware simulators, that computational load is adjustable
+so that energy consumption is matched to production, this thesis proposes to
+compare simulations derived from real-world data to this physical hardware
+testbed. To provide the necessary data to compare the simulations to, a testbed
+with the following properties is required.
+
+\begin{enumerate}
+    \item Renewable energy is produced and consumed respectively.
+    \item Excess energy produced, can be stored and retrieved if the production
+        fails to provide sufficient power.
+    \item \[ \frac{P_{\text{load}}}{P_{\text{idle}}} \geq 2 .\]
+        Adjusting the consumption to current production is more meaningful, in
+        regard to energy savings, if the quotient between the power consumption
+        under load and idle is as high as possible. In order to work properly
+        with the data provided, the lower bound 2 was chosen.
+    \item The current energy production and resources' power draw can be
+        measured in Volts and Amperes respectively. The amount of stored power
+        can be measured.
+    \item Resources can be managed dynamically. This is necessary for adjusting
+        the consumption depending on the current production of renewable energy.
+\end{enumerate}
+
+\section{Thesis Outline}

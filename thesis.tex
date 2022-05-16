@@ -58,14 +58,17 @@
 
 \thispagestyle{empty}
 
+\selectlanguage{ngerman}
 Hiermit erkläre ich, dass ich die vorliegende Arbeit selbstständig und
 eigenhändig sowie ohne unerlaubte fremde Hilfe und ausschließlich unter
 Verwendung der aufgeführten Quellen und Hilfsmittel angefertigt habe.
 
-\noindent I hereby declare that the thesis submitted is my own, unaided work,
-completed without any unpermitted external help. Only the sources and resources
-listed were used. The independent and unaided completion of the thesis is
-affirmed by affidavit.
+\selectlanguage{english}
+\noindent
+I hereby declare that the thesis submitted is my own, unaided work, completed
+without any unpermitted external help. Only the sources and resources listed
+were used. The independent and unaided completion of the thesis is affirmed by
+affidavit.
 
 \vspace{2cm}
 \hfill
@@ -88,6 +91,24 @@ affirmed by affidavit.
 
 \tableofcontents
 
-%\bibliographystyle{ieeetr}
-%\bibliography{refs}
+\chapter{Introduction}
+\input{introduction}
+
+\chapter{Background}
+\input{background}
+
+\chapter{Related Work}
+\input{related_work}
+
+\chapter{Testbed}
+\input{testbed}
+
+\chapter{Evaluation}
+\input{evaluation}
+
+\chapter{Conclusion}
+\input{conclusion}
+
+\bibliographystyle{ieeetr}
+\bibliography{refs}
 \end{document}
