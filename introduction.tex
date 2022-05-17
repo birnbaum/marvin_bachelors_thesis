@@ -8,7 +8,7 @@ electrical grid and require on-site energy generation. Some examples include
 portable weather stations, smart watering and metering in autonomous farming or
 numerous sensors in smart city designs. Large-scale data centers already profit
 from integration of on-site renewable energy generation and are able to achieve
-significant cost reductions while also reducing their greenhouse gas emissions.
+significant cost reductions while also reducing their greenhouse gas emissions
 \cite{tu2013}. In its current state however, renewable energy generation is
 rather volatile and unable to supply sufficient uninterrupted power on its own
 \cite{rostirolla2022}, resulting in a problem for edge devices without a
@@ -37,6 +37,7 @@ and how this may change the accuracy of the predictions and consequently
 research outcomes.
 
 \section{Testbed Requirements}
+\label{sec:testbed_requirements}
 
 This bachelor's thesis proposes a hardware testbed for renewable-aware resource
 management in edge computing, capable of dynamically adjusting its computational
@@ -64,3 +65,38 @@ with the following properties is required.
 \end{enumerate}
 
 \section{Thesis Outline}
+
+This thesis is divided into 6 chapters.
+
+Chapter \ref{chap:background} introduces the fundamental concepts discussed in
+subsequential chapters. First, edge and fog computing paradigms and their
+necessity for future information and communications technology (ICT) are
+presented. Second, the respective use cases of physical and simulation testbeds
+in edge and fog computing environments are outlined. Third, dynamic resource
+management, and specifically energy proportional computing for our use case,
+techniques are presented and DVFS, as the main technique for our physical
+testbed, along with its implementation in the Linux kernel, will be outlined.
+
+Chapter \ref{chap:related_work} first reviews related research in the area of
+energy-aware resource management utilizing DVFS. The utilization of simulations
+in all presented papers leads to the described problem which is subsequently
+outlined. Then, these simulations are presented and aforementioned problem is
+demonstrated.
+
+Chapter \ref{chap:testbed} presents the hardware testbed. First, all hardware
+components used and their conformity with the requirements listed in section
+\ref{sec:testbed_requirements} are presented. Second, the assembly of the
+individual components and their relations to each other are described. Third,
+the setup of the software, necessary to ensure functionality of the components,
+data transmission and operability, is presented. Fourth, the implementation of
+DVFS, customized for this testbed, is outlined.
+
+Chapter \ref{chap:evaluation} evaluates the testbed by assessing the accuracy of
+its capability to adjusting its computational load relative to the on-site
+energy generation. An error analysis is conducted and reviewed in regards to
+collected data by the testbed. The subsequent consequences for conducted
+research in the area of energy-aware resource management is discussed.
+
+Chapter \ref{chap:conclusion} concludes the thesis by summarizing the main
+points and contributions.
+
