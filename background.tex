@@ -1,12 +1,12 @@
 This chapter elaborates on relevant concepts revolving around energy-aware
 resource management in edge and fog computing. Section
 \ref{sec:edge_and_fog_computing_paradigms} introduces the motivation and
-necessity for edge and fog computing paradigms. Section
+explains the necessity for edge and fog computing paradigms. Section
 \ref{sec:testbeds_in_edge_and_fog_computing_environments} focuses on the
 development process of edge and fog infrastructure and outlines the essential
 use of testbeds. Section \ref{sec:dynamic_resource_management} presents common
 techniques in dynamic resource management whilst focusing on energy proportional
-computing. Since the renewable energy source in the hardware testbed is not able
+computing. Since the renewable energy source of the hardware testbed is not able
 to supply uninterrupted power, section
 \ref{sec:energy-aware_resource_management} outlines specific techniques used in
 energy-aware resource management. Dynamic voltage and frequency scaling will be
@@ -20,19 +20,22 @@ In 2012 Xia et al. describes the Internet of Things as the networked
 interconnection of everyday objects, which are often equipped with ubiquitous
 intelligence \cite{xia2012}. Since then, IoT devices have spread to all aspects
 of our everyday lives. The rise of IoT resulted in a significant increase of
-devices connected to the internet and will, with its current rate of
-development, soon grow to a point, our current network structure cannot manage.
-In specific, major challenges that are posed by traditional device to cloud
-connections include the diminishing availability of bandwidth and high latency
-due to physical distance.
+devices connected to the internet and may, with its current rate of development,
+soon grow to a point, that our current network structure cannot manage. In
+specific, major challenges that are posed by traditional cloud-centric IoT
+architectures include the excess of bandwidth availability due to the
+increasingly large and high-frequent rate of data being produced by IoT devices,
+and high end-to-end latency and unstable, intermittent network connectivity due
+to potential large physical distance \cite{buyya2019}.
 
 Fog and edge computing paradigms pose a viable solution to the problem stated
 above. They induce a highly virtualized platform that provides compute, storage,
 and networking services between end devices and traditional Cloud Computing Data
 Centers, typically, but not exclusively located at the edge of network
-\cite{bonomi2012}. With the physical proximity of provided services, the load on
-cloud servers are relieved, throughput is subsequently raised and latency for
-the end device highly lowered.
+\cite{bonomi2012}. With the physical proximity of provided services, latency for
+end devices is highly lowered, cloud servers are relieved due to less network
+traffic and network throughput is subsequently raised for both end devices and
+cloud servers.
 
 \section{Testbeds in Edge and Fog Computing Environments}
 \label{sec:testbeds_in_edge_and_fog_computing_environments}
