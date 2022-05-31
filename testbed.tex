@@ -1,8 +1,47 @@
+This chapter presents the hardware testbed. The assembled setup system is
+capable of dynamically adjusting its computational load relative to the on-site
+energy production by photo-voltaic (PV) modules. Section
+\ref{sec:hardware_components} lists all main physical components and
+demonstrates the conformity with the requirements from section
+\ref{sec:testbed_requirements}. Section \ref{sec:hardware_assembly} shows the
+assembly of all components and explains their interrelations. Subsequently
+section \ref{sec:software_setup} shows the software setup, necessary to ensure
+functionality of the components, data transmission and operability. Section
+\ref{sec:implementation_of_dvfs} presents the implementation of DVFS for this
+testbed.
+
 \section{Hardware Components}
+\label{sec:hardware_components}
+
+The testbed is mainly composed of the following hardware. As the compute node,
+the single-board computer \emph{Raspberry Pi 3b+} serves as a viable choice due
+to its low energy consumption, cost effectiveness and a wide range of hardware
+applications \footnote{\url{https://www.raspberrypi.com}}. In an idle state,
+with the \textsc{HDMI} driver and \textsc{LED}s disabled to preserve energy, the
+node consumes about 400 mA (2 W). With the same configuration under load, the
+node consumes up to 980 mA (3.7 W), yielding a quotient between power
+consumption under load and idle of 2.45.
+% TODO measure that
+Renewable energy is produced by 4 PV modules, each outputting 330 mA at 6 V.
+Excess energy produced by the PV modules is stored in a 3.7 V, 6600 mAh
+lithium-ion polymer (LiPo) battery as backup energy source in case of suboptimal
+solar conditions. Ultimately a component, connecting all components listed
+above, is needed to measure the energy production of the PV modules, the
+battery's state of charge and the energy consumption of the compute node.
+\emph{SwitchDoc Labs} developed \emph{SunControl}, an inexpensive solar power
+controller board, among multiple other things capable of these tasks
+\cite{switchdoc_suncontrol} and is therefore ideal for this testbed.
 
 \section{Hardware Assembly}
+\label{sec:hardware_assembly}
 
 \section{Software Setup}
+\label{sec:software_setup}
+
+%For dynamic resource management, the frequency and voltage of the Raspberry Pi's
+%\textsc{ARM CPU} can be scaled dynamically e.g. with the \texttt{cpufreq}
+%subsystem\footnote{\url{https://community.arm.com/oss-platforms/w/docs/528/cpufreq-dvfs}}.
 
 \section{Implementation of DVFS}
+\label{sec:implementation_of_dvfs}
 
