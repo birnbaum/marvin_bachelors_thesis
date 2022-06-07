@@ -12,6 +12,9 @@
 \usepackage{amsmath}
 \usepackage[indent]{parskip}
 
+% fix underfull hbox for long urls in footnotes
+\apptocmd{\sloppy}{\hbadness 10000\relax}{}{}
+
 \begin{document}
 
 \begin{titlepage}
