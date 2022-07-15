@@ -39,12 +39,13 @@ quotient between power consumption under load and idle of 2.45.
 \section{Software Setup}
 \label{sec:software_setup}
 
-As the testbed is self-sufficient, remote communication is most suitable for
-monitoring and operations. A Secure Shell (SSH) connection to the Raspberry Pi
-is easily configured alongside the installation process of Raspberry Pi OS Lite
-via their imager software.\footnote{\url{https://www.raspberrypi.com/software/}}
-To enable functionality of SunControl, installation of SwitchDoc's Python driver
-code libraries are necessary. The official code from 2017 was written in Python
+As the testbed is meant to be self-sufficient, remote communication is most
+suitable for monitoring and operations. A Secure Shell (SSH) connection to the
+Raspberry Pi is easily configured alongside the installation process of
+Raspberry Pi OS Lite via their imager
+software.\footnote{\url{https://www.raspberrypi.com/software/}} To enable
+functionality of SunControl, installation of SwitchDoc's Python driver code
+libraries are necessary. The official code from 2017 was written in Python
 2.7.\footnote{\url{https://github.com/switchdoclabs/SDL_Pi_SunControl}} Since
 Python 2 is deprecated since 2020 and vital official libraries are no longer
 supported,\footnote{\url{https://www.python.org/doc/sunset-python-2/}} the
@@ -52,8 +53,9 @@ codebase needed to be refactored and ported from Python 2.7 to
 3.7.\footnote{\url{https://github.com/marvin-steinke/SDL_Pi_SunControl}} To
 allow SunControl to communicate with the Raspberry Pi, Inter-Integrated Circuit
 (I$^2$C) support for the ARM core and Linux kernel need to be configured via
-\texttt{sudo raspi-config}. For this, the packages \texttt{python-smbus} and
-\texttt{i2c-tools} from the Debian 11 repositories need to be
+\texttt{sudo raspi-config}. For this, the packages \texttt{python-smbus} from
+pythons package installer \texttt{pip} and \texttt{i2c-tools} from the Debian 11
+repositories need to be
 installed.\footnote{\url{https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c}}
 
 %For dynamic resource management, the frequency and voltage of the Raspberry Pi's
