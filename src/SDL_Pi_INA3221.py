@@ -1,11 +1,11 @@
+#!/usr/bin/env python3
+
 # SDL_Pi_INA3221.py Python Driver Code
 # SwitchDoc Labs March 4, 2015
 # V 1.2
 
 
 #encoding: utf-8
-
-from datetime import datetime
 
 import smbus
 
@@ -42,7 +42,7 @@ INA3221_CONFIG_VSH_CT1          =           (0x0010)  # Vshunt bit 1 Conversion 
 INA3221_CONFIG_VSH_CT0          =           (0x0008)  # Vshunt bit 0 Conversion time - See table 5 spec
 
 INA3221_CONFIG_MODE_2           =           (0x0004)  # Operating Mode bit 2 - See table 6 spec
-INA3221_CONFIG_MODE_1           =               (0x0002)  # Operating Mode bit 1 - See table 6 spec
+INA3221_CONFIG_MODE_1           =           (0x0002)  # Operating Mode bit 1 - See table 6 spec
 INA3221_CONFIG_MODE_0           =           (0x0001)  # Operating Mode bit 0 - See table 6 spec
 
 #/*=========================================================================*/
@@ -107,14 +107,14 @@ class SDL_Pi_INA3221():
         #print "Write  16 bit Word addr =0x%x register = 0x%x data = 0x%x " % (self._addr, register, data)
 
     def _getBusVoltage_raw(self, channel):
-            #Gets the raw bus voltage (16-bit signed integer, so +-32767)
+        # Gets the raw bus voltage (16-bit signed integer, so +-32767)
         value = self._read_register_little_endian(INA3221_REG_BUSVOLTAGE_1+(channel -1) *2)
         if value > 32767:
             value -= 65536
         return value
 
     def _getShuntVoltage_raw(self, channel):
-        #Gets the raw shunt voltage (16-bit signed integer, so +-32767)
+        # Gets the raw shunt voltage (16-bit signed integer, so +-32767)
         value = self._read_register_little_endian(INA3221_REG_SHUNTVOLTAGE_1+(channel -1) *2)
         if value > 32767:
             value -= 65536
@@ -134,6 +134,6 @@ class SDL_Pi_INA3221():
         return value * 0.005
 
     def getCurrent_mA(self, channel):
-        #Gets the current value in mA, taking into account the config settings and current LSB
+        # Gets the current value in mA, taking into account the config settings and current LSB
         valueDec = self.getShuntVoltage_mV(channel) / SHUNT_RESISTOR_VALUE
         return valueDec

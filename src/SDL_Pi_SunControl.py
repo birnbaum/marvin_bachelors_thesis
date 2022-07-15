@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # SDL_Pi_SunControl.py Python Driver Code
 # SwitchDoc Labs July 2017
@@ -6,14 +6,8 @@
 
 # imports
 
-import sys
-sys.path.append('./SDL_Pi_INA3221')
-
 import time
-import datetime
-import random
 import SDL_Pi_INA3221
-
 import RPi.GPIO as GPIO
 
 # constants
