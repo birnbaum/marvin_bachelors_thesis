@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # test pi's energy consumption with different docker
-# resource limitations (via docker --cpus=)
+# resource limitations (via docker --cpus)
 # usage:
 #
 # python flwr_pi/server.py --server_address <server_address>:<port> \
@@ -45,11 +45,8 @@ for cpus in range(4, 0, -1):
         time.sleep(1)
     # docker_instance has terminated
     endtime = time.time()
-    # append (cpus,cputime)(median_current,cputime) to file
     cputime = int(endtime - starttime)
-    median_current = statistics.median(currents)
+    mean_current = statistics.mean(currents)
+    # append (cpus,cputime)(mean_current,cputime) to file
     with open('data', 'a') as f:
-        f.write(f'({cpus},{cputime})({median_current:3.2f},{cputime})\n')
-    # debug currents list
-    with open("currents", "w") as output:
-        output.write(str(currents))
+        f.write(f'({cpus},{cputime})({mean_current:3.2f},{cputime})\n')
