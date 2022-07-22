@@ -8,7 +8,7 @@ sc = sdl.SDL_Pi_SunControl(
     WatchDog_Wake = 16
 )
 
-print('SDL_Pi_SunControl Power Status\n')
+print('SDL_Pi_SunControl Power Status:\n')
 
 batteryVoltage = sc.readChannelVoltageV(sdl.SunControl_LIPO_BATTERY_CHANNEL)
 batteryCurrent = sc.readChannelCurrentmA(sdl.SunControl_LIPO_BATTERY_CHANNEL)
@@ -21,4 +21,4 @@ print(f'Solar Cells: \t {solarCellVoltage:3.2f} V / {solarCellCurrent:3.2f} mA')
 
 piVoltage = sc.readChannelVoltageV(sdl.SunControl_OUTPUT_CHANNEL)
 piCurrent = sc.readChannelCurrentmA(sdl.SunControl_OUTPUT_CHANNEL)
-print(f'Pi: \t {piVoltage:3.2f} V / {piCurrent:3.2f} mA')
+print(f'Pi: \t\t {piVoltage:3.2f} V / {piCurrent:3.2f} mA')
