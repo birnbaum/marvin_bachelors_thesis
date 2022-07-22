@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+#
+# test pi's energy consumption with different docker
+# resource limitations (via docker --cpus=)
+# usage:
+#
+# python flwr_pi/server.py --server_address <server_address>:<port> \
+# --rounds 1 --min_num_clients 1 --min_sample_size 1 --model Net
+#
+# python flwr_data.py <server_address>:<port>
 
 import sys
 import subprocess
