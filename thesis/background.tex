@@ -2,12 +2,12 @@ This chapter elaborates on relevant concepts revolving around energy-aware
 resource management in edge and fog computing. Section
 \ref{sec:edge_and_fog_computing_paradigms} introduces the motivation and
 explains the necessity for edge and fog computing paradigms. Section
-\ref{sec:testbeds_in_edge_and_fog_computing_environments} focuses on the
-development process of edge and fog infrastructure and outlines the essential
-use of testbeds. Section \ref{sec:dynamic_resource_management} presents common
-techniques in dynamic resource management whilst focusing on energy proportional
-computing. Since the renewable energy source of the hardware testbed is not able
-to supply uninterrupted power, section
+\ref{sec:testbeds_emulations_and_simulations_in_edge_and_fog_computing_environments}
+focuses on the development process of edge and fog infrastructure and outlines
+the essential use of testbeds, simulations and emulations. Section
+\ref{sec:energy_proportional_computing} presents main concepts of energy
+proportional computing. Since the renewable energy source of the hardware
+testbed is not able to supply uninterrupted power, section
 \ref{sec:energy-aware_resource_management} outlines specific techniques used in
 energy-aware resource management. Dynamic voltage and frequency scaling will be
 the primary technique used in the hardware testbed and is therefore elaborated
@@ -52,20 +52,34 @@ production lines. Possible defects are detected locally and may subsequently be
 transmitted to a nearby fog server for further processing \cite{atos2019,
 atos2020}.
 
-\section{Testbeds in Edge and Fog Computing Environments}
-\label{sec:testbeds_in_edge_and_fog_computing_environments}
+\section{Testbeds, Emulations and Simulations in Edge and Fog Computing Environments}
+\label{sec:testbeds_emulations_and_simulations_in_edge_and_fog_computing_environments}
 
-While some elaborate approaches are already in use, none of these are deployed
-on a large scale yet and are therefore, for the most part, unfit for research
+Opposed to simulators or emulators, hardware testbeds are subject to real-life
+environments and therefore able to accommodate more realistic experiments. While
+some elaborate approaches are already in use, none of these are deployed on a
+large scale yet and are therefore, for the most part, unfit for research
 revolving around fog and edge computing. Deploying a large scale physical
 testbed for research or commercial purposes is not only very cost intensive, but
-also highly time consuming. Thus, simulating or emulating environments for fog
-and edge computing paradigms seems to be most opportune for development and
-research processes.
+also highly time consuming.
 
-% computational load can be adjusted in a way that that energy consumption
-% perfectly matches energy production. explain how its done with formulas and
-% math and shit
+Emulators serve as a more abstract alternative. Instead of physically setting up
+and initializing hardware and network for the desired system, the components are
+imitated on a computer, while keeping all functionality of the emulated system.
+This enables multiple components to be emulated on a single system, making them
+independent from their physical location. While experiments utilizing emulators
+are saving space and costs to a certain extent, execution time is bound by the
+emulated hardware, making them very inefficient for many scenarios, where
+gathering data takes a lot of time.
+
+Simulators on the other hand
+\cite{svorobej2019}
+%Thus, simulating or emulating environments for fog
+%and edge computing paradigms seems to be most opportune for development and
+%research processes.
+
+\section{Energy Proportional Computing}
+\label{sec:energy_proportional_computing}
 
 \section{Dynamic Resource Management}
 \label{sec:dynamic_resource_management}
@@ -75,4 +89,3 @@ research processes.
 
 \subsection{Dynamic Voltage and Frequency Scaling}
 \label{sec:dynamic_voltage_and_frequency_scaling}
-
