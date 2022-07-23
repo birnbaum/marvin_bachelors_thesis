@@ -38,7 +38,7 @@ for cpus in range(4, 0, -1):
             cwd='flwr_pi'
     )
     # limit cpu utilization for docker_instance
-    subprocess.run(['cpulimit', '-p', str(docker_instance), '-l', str(cpus * 100)])
+    subprocess.run(['cpulimit', '-p', str(docker_instance.pid), '-l', str(cpus * 100)])
     starttime = time.time()
     # check every second if docker_instance has terminated
     currents = []
