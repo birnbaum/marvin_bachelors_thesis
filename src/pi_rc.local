@@ -1,0 +1,3 @@
+#!/bin/sh -e
+sudo sh /home/pi/bachelors_thesis/src/pi_init.sh
+exit 0
