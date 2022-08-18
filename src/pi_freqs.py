@@ -22,17 +22,20 @@ def terminate(parent):
 
 def gather_data(freqs, output_file):
     for freq in freqs:
+        # set maximum cpu frequency
         subprocess.run(['sudo', 'cpupower', 'frequency-set', '-u', str(freq * 1000)])
         time.sleep(3)
         currents = []
         starttime = time.time()
+        # gather currents for 20 seconds
         while time.time() - starttime < 20:
             currents.append(sc.readChannelCurrentmA(sdl.SunControl_OUTPUT_CHANNEL))
             time.sleep(1)
-        # append (current,freq) to file
+        # append (cputime,current) to file
         with open(output_file, 'a') as file:
-            for current in currents:
-                file.write(f'({current},{freq})\n')
+            file.write(f'{freq}\n')
+            for cputime, current in enumerate(currents):
+                file.write(f'({cputime + 1},{current})\n')
 
 # argv
 pid_parent = int(sys.argv[1])
@@ -47,6 +50,7 @@ sc = sdl.SDL_Pi_SunControl(
         WatchDog_Wake = 16
 )
 
+# available frequencies for Raspberry Pi 3b+
 freqs = [600, 700, 800, 900, 1000, 1100, 1200],
 
 gather_data(freqs, 'freq_currents_load')
