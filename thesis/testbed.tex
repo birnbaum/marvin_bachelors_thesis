@@ -1,14 +1,15 @@
 This chapter presents the hardware testbed. The assembled setup system is
 capable of dynamically adjusting its computational load relative to the on-site
 energy production by photo-voltaic (PV) modules. Section
-\ref{sec:hardware_components} lists all main physical components and
-demonstrates the conformity with the requirements from section
-\ref{sec:testbed_requirements}. Section \ref{sec:hardware_assembly} shows the
-assembly of all components and explains their interrelations. Subsequently
-section \ref{sec:software_setup} shows the software setup, necessary to ensure
-functionality of the components, data transmission and operability. Section
+\ref{sec:hardware_components} lists all main physical components. Section
+\ref{sec:hardware_assembly} shows the assembly of all components and explains
+their interrelations. Subsequently section \ref{sec:software_setup} shows the
+software setup, necessary to ensure functionality of the components, data
+transmission and operability.  Section
 \ref{sec:implementation_of_energy-aware_resource_management} presents the
-implementation of Energy-Aware Resource Management for this testbed.
+implementation of Energy-Aware Resource Management for this testbed and
+demonstrates the conformity with the requirements from section
+\ref{sec:testbed_requirements}.
 
 \section{Hardware Components}
 \label{sec:hardware_components}
@@ -26,12 +27,6 @@ and the energy consumption of the compute node. \emph{SwitchDoc Labs} developed
 \emph{SunControl}, an inexpensive solar power controller board, among multiple
 other things capable of these tasks \cite{switchdoc_suncontrol} and is therefore
 ideal for this testbed.
-
-In an idle state, with the \textsc{HDMI} driver and \textsc{LED}s disabled to
-preserve energy, the node consumes about 400 mA (2 W). With the same
-configuration under load, the node consumes up to 980 mA (3.7 W), yielding a
-quotient between power consumption under load and idle of 2.45.
-% TODO provide figure and proof
 
 \section{Hardware Assembly}
 \label{sec:hardware_assembly}
@@ -52,11 +47,14 @@ supported,\footnote{\url{https://www.python.org/doc/sunset-python-2/}} the
 codebase needed to be refactored and ported from Python 2.7 to
 3.7.\footnote{\url{https://github.com/marvin-steinke/SDL_Pi_SunControl}} To
 allow SunControl to communicate with the Raspberry Pi, Inter-Integrated Circuit
-(I$^2$C) support for the ARM core and Linux kernel need to be configured via
-\texttt{sudo raspi-config}. For this, the packages \texttt{python-smbus} from
-pythons package installer \texttt{pip} and \texttt{i2c-tools} from the Debian 11
-repositories need to be
-installed.\footnote{\url{https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c}}
+(I$^2$C) support for the ARM core and Linux kernel need to be enabled.
+
+\subsection{Energy Preservation}
+
+The Raspberry Pi has many components, of which some might not be needed for the
+specific use-cases of the testbed, but still make up a large portion of overall
+energy consumption. Some of these can be disabled, such as the Bluetooth and
+HDMI module and the USB ports. %TODO provide graphs to proof
 
 %For dynamic resource management, the frequency and voltage of the Raspberry Pi's
 %\textsc{ARM CPU} can be scaled dynamically e.g. with the \texttt{cpufreq}
@@ -64,4 +62,3 @@ installed.\footnote{\url{https://learn.adafruit.com/adafruits-raspberry-pi-lesso
 
 \section{Implementation of Energy-Aware Resource Management}
 \label{sec:implementation_of_energy-aware_resource_management}
-
