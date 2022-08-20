@@ -51,7 +51,7 @@ sc = sdl.SDL_Pi_SunControl(
 )
 
 # available frequencies for Raspberry Pi 3b+
-freqs = [600, 700, 800, 900, 1000, 1100, 1200],
+freqs = [600, 700, 800, 900, 1000, 1100, 1200]
 
 gather_data(freqs, 'freq_currents_load')
 terminate(parent)
