@@ -6,23 +6,14 @@ import subprocess
 import psutil
 import SDL_Pi_SunControl as sdl
 
-def terminate(parent):
-    children = parent.children(recursive=True)
-    for child in children:
-        child.terminate()
-    # wait until terminated
-    gonealive = psutil.wait_procs(children, timeout=3)
-    # if child doesn't terminate, kill
-    for child in gonealive[1]:
+def kill_family(parent):
+    for child in parent.children(recursive=True):
         child.kill()
-    parent.terminate()
-    # return codes >= 0 imply termination
-    if parent.wait(timeout=3) < 0:
-        parent.kill()
+    parent.kill()
 
 def gather_data(freqs, output_file):
     for freq in freqs:
-        # set maximum cpu frequency
+        # set maximum cpu frequency to use (ondemand governor)
         subprocess.run(['sudo', 'cpupower', 'frequency-set', '-u', str(freq * 1000)])
         time.sleep(3)
         currents = []
@@ -54,5 +45,5 @@ sc = sdl.SDL_Pi_SunControl(
 freqs = [600, 700, 800, 900, 1000, 1100, 1200]
 
 gather_data(freqs, 'freq_currents_load')
-terminate(parent)
+kill_family(parent)
 gather_data(freqs, 'freq_currents_idle')
