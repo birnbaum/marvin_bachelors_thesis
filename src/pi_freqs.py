@@ -26,7 +26,7 @@ def gather_data(freqs, output_file):
         with open(output_file, 'a') as file:
             file.write(f'{freq}\n')
             for cputime, current in enumerate(currents):
-                file.write(f'({cputime + 1},{current})\n')
+                file.write(f'({cputime + 1},{current:3.2f})\n')
 
 # argv
 pid_parent = int(sys.argv[1])
