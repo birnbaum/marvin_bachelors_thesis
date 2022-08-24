@@ -2,6 +2,7 @@
 
 import sys
 import time
+import statistics
 import subprocess
 import psutil
 import SDL_Pi_SunControl as sdl
@@ -27,6 +28,7 @@ def gather_data(freqs, output_file):
             file.write(f'{freq}\n')
             for cputime, current in enumerate(currents):
                 file.write(f'({cputime + 1},{current:3.2f})\n')
+            file.write(f'{statistics.mean(currents)}\n')
 
 # argv
 pid_parent = int(sys.argv[1])
