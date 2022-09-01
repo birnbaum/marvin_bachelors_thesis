@@ -13,22 +13,31 @@ def kill_family(parent):
     parent.kill()
 
 def gather_data(freqs, output_file):
+    # only the userspace governor can force the cores to run at specific frequency
+    subprocess.run(['sudo', 'cpupower', 'frequency-set', '-g', 'userspace'])
+    means = []
     for freq in freqs:
-        # set maximum cpu frequency to use (ondemand governor)
-        subprocess.run(['sudo', 'cpupower', 'frequency-set', '-u', str(freq * 1000)])
+        # set specific frequency to use
+        subprocess.run(['sudo', 'cpupower', 'frequency-set', '-f', str(freq * 1000)])
         time.sleep(3)
         currents = []
         starttime = time.time()
-        # gather currents for 20 seconds
-        while time.time() - starttime < 20:
+        # gather currents for 2 minutes
+        while time.time() - starttime < 120:
             currents.append(sc.readChannelCurrentmA(sdl.SunControl_OUTPUT_CHANNEL))
             time.sleep(1)
+        means.append(statistics.mean(currents))
         # append (cputime,current) to file
         with open(output_file, 'a') as file:
-            file.write(f'{freq}\n')
             for cputime, current in enumerate(currents):
                 file.write(f'({cputime + 1},{current:3.2f})\n')
-            file.write(f'{statistics.mean(currents)}\n')
+            file.write('\n')
+    # return to default governor ondemand
+    subprocess.run(['sudo', 'cpupower', 'frequency-set', '-g', 'ondemand'])
+    # save gathered mean values
+    with open(output_file, 'a') as file:
+        for mean in means:
+            file.write(f'{mean}\n')
 
 # argv
 pid_parent = int(sys.argv[1])
@@ -48,4 +57,3 @@ freqs = [600, 700, 800, 900, 1000, 1100, 1200]
 
 gather_data(freqs, 'freq_currents_load')
 kill_family(parent)
-gather_data(freqs, 'freq_currents_idle')
