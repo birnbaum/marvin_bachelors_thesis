@@ -7,7 +7,7 @@
 # imports
 
 import time
-import SDL_Pi_INA3221
+from lib import SDL_Pi_INA3221
 import RPi.GPIO as GPIO
 
 # constants
