@@ -5,7 +5,7 @@ import time
 import statistics
 import subprocess
 import psutil
-import SDL_Pi_SunControl as sdl
+from lib import SDL_Pi_SunControl as sdl
 
 def kill_family(parent):
     for child in parent.children(recursive=True):

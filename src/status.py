@@ -1,4 +1,4 @@
-import SDL_Pi_SunControl as sdl
+from lib import SDL_Pi_SunControl as sdl
 
 sc = sdl.SDL_Pi_SunControl(
     INA3221Address = 0x40,

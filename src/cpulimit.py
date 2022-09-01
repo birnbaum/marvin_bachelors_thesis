@@ -4,7 +4,7 @@ import sys
 import time
 import subprocess
 import psutil
-import SDL_Pi_SunControl as sdl
+from lib import SDL_Pi_SunControl as sdl
 
 def terminate(parent):
     children = parent.children(recursive=True)
