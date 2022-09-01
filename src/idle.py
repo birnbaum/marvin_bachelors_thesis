@@ -2,7 +2,7 @@
 
 import time
 import statistics
-import SDL_Pi_SunControl as sdl
+from lib import SDL_Pi_SunControl as sdl
 
 # config
 sc = sdl.SDL_Pi_SunControl(
@@ -13,14 +13,15 @@ sc = sdl.SDL_Pi_SunControl(
         WatchDog_Wake = 16
 )
 
+time.sleep(10)
 starttime = time.time()
-# get every 5 seconds idle current
+# get every second idle current for 2 minutes
 currents = []
-while cputime := time.time() - starttime < 60:
+while cputime := time.time() - starttime < 120:
     currents.append(sc.readChannelCurrentmA(sdl.SunControl_OUTPUT_CHANNEL))
-    # append (current,cputime) to file
-    with open('idle_currents', 'a') as f:
-        f.write(f'({currents[-1]},{cputime})\n')
-    time.sleep(5)
-mean_current = statistics.mean(currents)
-print(f'Measured a mean current of {mean_current} over 60 seconds')
+    time.sleep(1)
+# append currents and mean to file
+with open('idle_currents', 'a') as file:
+    for index, current in enumerate(currents):
+        file.write(f'({index + 1},{current:3.2f})\n')
+    file.write(f'\nmean: {statistics.mean(currents)}')
