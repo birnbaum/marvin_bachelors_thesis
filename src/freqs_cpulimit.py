@@ -12,7 +12,7 @@ def kill_family(parent):
         child.kill()
     parent.kill()
 
-def gather_data(parent, output_file):
+def gather_data(parent, freqs, output_file):
     # only the userspace governor can force the cores to run at specific frequency
     subprocess.run(['sudo', 'cpupower', 'frequency-set', '-g', 'userspace'])
     means = []
@@ -60,5 +60,5 @@ sc = sdl.SDL_Pi_SunControl(
 # available frequencies for Raspberry Pi 3b+
 freqs = [600, 700, 800, 900, 1000, 1100, 1200]
 
-gather_data(freqs, 'freqs_cpulimit_currents')
+gather_data(parent, freqs, 'freqs_cpulimit_currents')
 kill_family(parent)
