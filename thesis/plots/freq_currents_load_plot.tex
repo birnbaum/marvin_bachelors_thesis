@@ -6,18 +6,19 @@
 
 \begin{tikzpicture}
     \begin{axis}[
-    title={Power Usage of Raspberry Pi 3b+ Under Load},
-    xlabel={Time in Seconds},
-    ylabel={Current in mAh},
-    %ytick=data,
-    xtick={0,10,...,120},
-    ymajorgrids=true,
-    cycle list name=color list,
-    legend pos=outer north east,
-    grid style=dashed,
-    height=10cm,
-    width=15cm,
-    scale only axis=true,
+        title={Power Usage of Raspberry Pi 3b+ Under Load},
+        xlabel={Time in Seconds},
+        ylabel={Current in mAh},
+        %ytick=data,
+        xtick={0,10,...,120},
+        ymajorgrids=true,
+        reverse legend,
+        cycle list name=color list,
+        legend pos=outer north east,
+        grid style=dashed,
+        height=10cm,
+        width=15cm,
+        scale only axis=true,
     ]
     \addplot
     coordinates {
