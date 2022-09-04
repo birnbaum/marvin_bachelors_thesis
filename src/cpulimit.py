@@ -15,7 +15,11 @@ def kill_family(parent):
 def gather_data(parent, output_file):
     means = []
     for cpulimit in range(50, 401, 50):
-        cpulimit_process = subprocess.Popen(['sudo', 'cpulimit', '-p', str(parent.pid), '-l', str(cpulimit), '-i'])
+        cpulimit_processes = []
+        # cpulimit each child of parent
+        for child in parent.children():
+            limit_child = subprocess.Popen(['cpulimit', '-p', str(child.pid), '-l', str(cpulimit)])
+            cpulimit_processes.append(limit_child)
         time.sleep(2)
         currents = []
         starttime = time.time()
@@ -24,13 +28,15 @@ def gather_data(parent, output_file):
             currents.append(sc.readChannelCurrentmA(sdl.SunControl_OUTPUT_CHANNEL))
             time.sleep(1)
         means.append(statistics.mean(currents))
-        # append (cputime,current) to file
+        # append (cputime,current) latex usable
         with open(output_file, 'a') as file:
             file.write('\\addplot\ncoordinates {\n')
             for cputime, current in enumerate(currents):
                 file.write(f'({cputime + 1},{current:3.2f})\n')
             file.write(f'}};\n\\addlegendentry{{{cpulimit}}}\n')
-        cpulimit_process.kill()
+        # kill all cpulimit process
+        for limit_child in cpulimit_processes:
+            limit_child.kill()
     # save gathered mean values
     with open(output_file, 'a') as file:
         for mean in means:
