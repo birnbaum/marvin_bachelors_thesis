@@ -33,7 +33,7 @@ def gather_data(parent, freqs, output_file):
             means.append(statistics.mean(currents))
         with open(output_file, 'a') as file:
             file.write('\\addplot\ncoordinates {\n')
-            for index, mean in means:
+            for index, mean in enumerate(means):
                 cpulimit = (index + 1) * 50
                 file.write(f'({cpulimit},{mean:3.2f})\n')
             file.write(f'}};\n\\addlegendentry{{{freq}}}\n')
