@@ -13,8 +13,6 @@ def kill_family(parent):
     parent.kill()
 
 def gather_data(parent, output_file):
-    # only the userspace governor can force the cores to run at specific frequency
-    subprocess.run(['sudo', 'cpupower', 'frequency-set', '-g', 'userspace'])
     means = []
     for cpulimit in range(50, 401, 50):
         cpulimit_process = subprocess.Popen(['sudo', 'cpulimit', '-p', str(parent.pid), '-l', str(cpulimit), '-i'])
