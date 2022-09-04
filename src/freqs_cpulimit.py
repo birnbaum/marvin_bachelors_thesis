@@ -17,26 +17,26 @@ def gather_data(parent, freqs, output_file):
     subprocess.run(['sudo', 'cpupower', 'frequency-set', '-g', 'userspace'])
     means = []
     for freq in freqs:
-        with open(output_file, 'a') as file:
-            file.write(f'{freq}:\n')
         # set specific frequency to use
         subprocess.run(['sudo', 'cpupower', 'frequency-set', '-f', str(freq * 1000)])
-        time.sleep(3)
+        time.sleep(2)
         for cpulimit in range(50, 401, 50):
             currents = []
             # only use 50 - 400% of cpu (100% per core)
-            subprocess.run(['sudo', 'cpulimit', '-p', str(parent.pid), '-l', str(cpulimit), '-i'])
+            cpulimit_process = subprocess.Popen(['cpulimit', '-p', str(parent.pid), '-l', str(cpulimit), '-i'])
             starttime = time.time()
             # gather currents for 2 minutes
             while time.time() - starttime < 120:
                 currents.append(sc.readChannelCurrentmA(sdl.SunControl_OUTPUT_CHANNEL))
                 time.sleep(1)
+            cpulimit_process.kill()
             means.append(statistics.mean(currents))
-            # append (cputime,current) to file
-            with open(output_file, 'a') as file:
-                for cputime, current in enumerate(currents):
-                    file.write(f'({cputime + 1},{current:3.2f})\n')
-                file.write('\n')
+        with open(output_file, 'a') as file:
+            file.write('\\addplot\ncoordinates {\n')
+            for index, mean in means:
+                cpulimit = (index + 1) * 50
+                file.write(f'({cpulimit},{mean:3.2f})\n')
+            file.write(f'}};\n\\addlegendentry{{{freq}}}\n')
     # return to default governor ondemand
     subprocess.run(['sudo', 'cpupower', 'frequency-set', '-g', 'ondemand'])
     # save gathered mean values
