@@ -1,0 +1,36 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        title={Mean Power Usage of Raspberry Pi 3b+ under load with \texttt{cpulimit}},
+        xlabel={Current in mAh},
+        ylabel={Percentage of cpu},
+        ytick=data,
+        %xtick=data,
+        ymajorgrids=true,
+        grid style=dashed,
+        cycle list name=color list,
+    ]
+    \addplot[
+        mark=square,
+        color=blue,
+    ]
+    coordinates {
+        (254.90,50)
+        (322.62,100)
+        (465.57,150)
+        (579.45,200)
+        (631.46,250)
+        (661.65,300)
+        (678.93,350)
+        (673.72,400)
+    };
+    \end{axis}
+\end{tikzpicture}
+\hspace{.5cm}
+
+\end{document}
