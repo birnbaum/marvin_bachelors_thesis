@@ -16,7 +16,7 @@ def gather_data(parent, output_file):
     means = []
     for cpulimit in range(50, 401, 50):
         cpulimit_process = subprocess.Popen(['cpulimit', '-p', str(parent.pid), '-l', str(cpulimit), '-i'])
-        time.sleep(2)
+        time.sleep(.5)
         currents = []
         starttime = time.time()
         # gather currents for 2 minutes
