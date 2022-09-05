@@ -15,8 +15,8 @@ def kill_family(parent):
 def gather_data(parent, freqs, output_file):
     # only the userspace governor can force the cores to run at specific frequency
     subprocess.run(['sudo', 'cpupower', 'frequency-set', '-g', 'userspace'])
-    means = []
     for freq in freqs:
+        means = []
         # set specific frequency to use
         subprocess.run(['sudo', 'cpupower', 'frequency-set', '-f', str(freq * 1000)])
         time.sleep(2)
@@ -39,10 +39,6 @@ def gather_data(parent, freqs, output_file):
             file.write(f'}};\n\\addlegendentry{{{freq}}}\n')
     # return to default governor ondemand
     subprocess.run(['sudo', 'cpupower', 'frequency-set', '-g', 'ondemand'])
-    # save gathered mean values
-    with open(output_file, 'a') as file:
-        for mean in means:
-            file.write(f'{mean}\n')
 
 # argv
 pid_parent = int(sys.argv[1])
