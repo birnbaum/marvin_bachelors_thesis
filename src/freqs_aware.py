@@ -102,6 +102,7 @@ sc = sdl.SDL_Pi_SunControl(
      )
 
 cpu = cpuFreq()
+cpu.reset()
 sleep(5)
 aware(cpu, sc, 'solar_currents', 'freqs_aware')
 cpu.reset()
