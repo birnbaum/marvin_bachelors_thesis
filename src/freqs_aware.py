@@ -95,6 +95,7 @@ def aware(cpu, sc, input_file, output_file):
     tex_plot(output_file, pi_currents, 'Pi Currents')
     tex_plot(output_file, pi_freqs, 'Pi Frequencies')
 
+sleep(5)
 # suncontrol config
 sc = sdl.SDL_Pi_SunControl(
         INA3221Address = 0x40,
