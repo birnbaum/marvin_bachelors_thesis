@@ -32,9 +32,9 @@ def afterwatch(cpu, sc, should_current, stop):
     freqs = cpu.available_frequencies
     freq_index = freqs.index(cpu.get_frequencies()[0])
     if mean > should_current:
-        cpu.set_frequencies(freqs[freq_index - 1])
+        cpu.set_max_frequencies(freqs[freq_index - 1])
     elif mean < should_current:
-        cpu.set_frequencies(freqs[freq_index + 1])
+        cpu.set_max_frequencies(freqs[freq_index + 1])
     else:
         return
 
@@ -52,7 +52,7 @@ def log_search(cpu, sc, should_current, stop):
         return
     while abs(L - R) > 2:
         M = math.ceil((L + R) / 2)
-        cpu.set_frequencies(freqs[M])
+        cpu.set_max_frequencies(freqs[M])
         sleep(5)
         is_current = pi_current(sc)
         if is_current < should_current:
