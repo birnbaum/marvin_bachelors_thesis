@@ -83,7 +83,7 @@ def aware(cpu, sc, input_file, output_file):
                 stop_search = False
             search = Thread(
                         target=log_search,
-                        args=(cpu, statistics.mean(window), lambda: stop_search)
+                        args=(cpu, sc, statistics.mean(window), lambda: stop_search)
                      )
             search.start()
             window = []
@@ -102,5 +102,6 @@ sc = sdl.SDL_Pi_SunControl(
      )
 
 cpu = cpuFreq()
+sleep(5)
 aware(cpu, sc, 'solar_currents', 'freqs_aware')
 cpu.reset()
