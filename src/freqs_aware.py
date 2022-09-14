@@ -77,7 +77,7 @@ def aware(cpu, sc, input_file, output_file):
     while True:
         window.append(solar_currents.pop())
         pi_currents.append(pi_current(sc))
-        pi_freqs.append(cpu.get_frequencies[0])
+        pi_freqs.append(cpu.get_frequencies()[0])
         if len(window) == 5:
             if search.is_alive():
                 stop_search = True
