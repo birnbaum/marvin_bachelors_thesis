@@ -70,12 +70,14 @@ def aware(cpu, sc, input_file, output_file):
     tex_plot(output_file, solar_currents, 'Solar Currents')
     solar_currents.reverse()
     pi_currents = []
+    pi_freqs = []
     window = []
     search = Thread()
     stop_search = False
     while True:
         window.append(solar_currents.pop())
         pi_currents.append(pi_current(sc))
+        pi_freqs.append(cpu.get_frequencies[0])
         if len(window) == 5:
             if search.is_alive():
                 stop_search = True
@@ -91,6 +93,7 @@ def aware(cpu, sc, input_file, output_file):
             break
         sleep(1)
     tex_plot(output_file, pi_currents, 'Pi Currents')
+    tex_plot(output_file, pi_freqs, 'Pi Frequencies')
 
 # suncontrol config
 sc = sdl.SDL_Pi_SunControl(
