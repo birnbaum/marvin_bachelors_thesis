@@ -36,7 +36,7 @@ def log_part_search(cpu, sc, should_current, L, R):
             R[1] = is_current
         else:
             return L, R
-    M = math.floor((L + R) / 2)
+    M = math.floor((L[0] + R[0]) / 2)
     cpu.set_max_frequencies(freqs[M])
     sleep(5)
     is_current = pi_current(sc)
