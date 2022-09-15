@@ -55,8 +55,8 @@ def aware(cpu, sc, input_file, output_file):
     pi_currents = []
     pi_freqs = []
     window = []
-    L = (0, 0)
-    R = (0, 0)
+    L = [0, 0]
+    R = [0, 0]
     while solar_currents:
         window.append(solar_currents.pop())
         pi_currents.append(pi_current(sc))
