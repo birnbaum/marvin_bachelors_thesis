@@ -3,7 +3,7 @@
 from time import sleep
 import statistics
 import math
-from threading import Thread
+#from threading import Thread
 from cpufreq import cpuFreq
 from lib import SDL_Pi_SunControl as sdl
 
@@ -21,31 +21,55 @@ def tex_plot(output_file, data, legendentry):
 def pi_current(sc):
     return int(sc.readChannelCurrentmA(sdl.SunControl_OUTPUT_CHANNEL))
 
-def log_part_search(cpu, sc, should_current, L, R):
-    is_current = pi_current(sc)
+class Bound:
+    def __init__(self, index = 0, current = 0, is_actual = True):
+        self.index = index
+        self.current = current
+        self.is_actual = is_actual
+
+def log_search_step(cpu, sc, current_should, L, R):
+    current_is = pi_current(sc)
     freqs = cpu.available_frequencies
     freq_index = freqs.index(cpu.get_frequencies()[0])
-    if not (L[1] < should_current < R[1]):
-        if is_current < should_current:
-            L[0] = freq_index
-            L[1] = is_current
-            R[0] = len(freqs) - 1
-        elif is_current > should_current:
-            L[0] = 0
-            R[0] = freq_index
-            R[1] = is_current
-        else:
+    # current_should can change at any time, therefore if
+    # outside of search interval, restart the search.
+    if not (L.current <= current_should <= R.current):
+        if current_is < current_should:
+            L = Bound(freq_index, current_is)
+            R = Bound(len(freqs) - 1, 0)
+        elif current_is > current_should:
+            R = Bound(freq_index, current_is)
+            L = Bound()
+    # If current_should is now between current_is and
+    # Bound.current of the last altered bound, there is
+    # no frequency inbetween and the lower frequency of
+    # of the two is chosen
+    if not L.is_actual:
+        if L.current <= current_should <= current_is:
+            # frequency of the left bound is currently higher
+            cpu.set_max_frequencies(freqs[L.index - 1])
+            sleep(5)
             return L, R
-    M = math.floor((L[0] + R[0]) / 2)
+        else:
+            L.is_actual = True
+    if not R.is_actual:
+        if current_is <= current_should <= R.current:
+            # frequency is already the lower one of the two
+            return L, R
+        else:
+            R.is_actual = True
+    M = math.floor((L.index + R.index) / 2)
     cpu.set_max_frequencies(freqs[M])
     sleep(5)
-    is_current = pi_current(sc)
-    if is_current < should_current:
-        L[0] = M + 1
-        L[1] = is_current
-    elif is_current > should_current:
-        R[0]= M - 1
-        R[1] = is_current
+    current_is = pi_current(sc)
+    # ignore half the search interval:
+    # Because the index of the bound is M +- 1 and not M,
+    # current_is is not the actual current to the frequency,
+    # and therefore is_actual = False.
+    if current_is < current_should:
+        L = Bound(M + 1, current_is, False)
+    elif current_is > current_should:
+        R = Bound(M - 1, current_is, False)
     return L, R
 
 def aware(cpu, sc, input_file, output_file):
@@ -55,14 +79,14 @@ def aware(cpu, sc, input_file, output_file):
     pi_currents = []
     pi_freqs = []
     window = []
-    L = [0, 0]
-    R = [0, 0]
+    L = Bound()
+    R = Bound()
     while solar_currents:
         window.append(solar_currents.pop())
         pi_currents.append(pi_current(sc))
         pi_freqs.append(cpu.get_frequencies()[0])
         if len(window) == 5:
-            L, R = log_part_search(cpu, sc, statistics.mean(window), L, R)
+            L, R = log_search_step(cpu, sc, statistics.mean(window), L, R)
             window = []
         sleep(1)
     tex_plot(output_file, pi_currents, 'Pi Currents')
