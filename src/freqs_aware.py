@@ -67,9 +67,11 @@ def log_search_step(cpu, sc, current_should, L, R):
     # current_is is not the actual current to the frequency,
     # and therefore is_actual = False.
     if current_is < current_should:
-        L = Bound(M + 1, current_is, False)
+        new_index = M + 1 if M < len(freqs) - 1 else M
+        L = Bound(new_index, current_is, False)
     elif current_is > current_should:
-        R = Bound(M - 1, current_is, False)
+        new_index = M - 1 if M > 0 else M
+        R = Bound(new_index, current_is, False)
     return L, R
 
 def aware(cpu, sc, input_file, output_file):
