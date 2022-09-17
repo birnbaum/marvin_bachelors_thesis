@@ -1,4 +1,4 @@
-This chapter presents the hardware testbed. The assembled setup system is
+This chapter presents the hardware testbed. The assembled, setup system is
 capable of dynamically adjusting its computational load relative to the on-site
 energy production by photo-voltaic (PV) modules. Section
 \ref{sec:hardware_components} lists all main physical components. Section
@@ -16,14 +16,14 @@ demonstrates the conformity with the requirements from section
 
 The testbed is mainly composed of the following hardware. As the compute node,
 the single-board computer \emph{Raspberry Pi 3b+} serves as a viable choice due
-to its low energy consumption, cost effectiveness and a wide range of hardware
-applications.\footnote{\url{https://www.raspberrypi.com}} Renewable energy is
-produced by 4 PV modules, each outputting 330 mA at 6 V. Excess energy produced
-by the PV modules is stored in a 3.7 V, 6600 mAh lithium-ion polymer (LiPo)
-battery as backup energy source in case of suboptimal solar conditions.
-Ultimately a component, connecting all components listed above, is needed to
-measure the energy production of the PV modules, the battery's state of charge
-and the energy consumption of the compute node. \emph{SwitchDoc Labs} developed
+to its low energy consumption, cost effectiveness and wide range of hardware
+applications.\footnote{\url{https://raspberrypi.com}} Renewable energy is
+produced by four PV modules, each generating 330 mA at 6 V as stated by its
+manufacturer. Excess energy produced by the PV modules is stored in a 3.7 V,
+6600 mAh lithium-ion polymer (LiPo) battery as backup energy source in case of
+suboptimal solar conditions. Ultimately a component, connecting all components
+listed above, is needed to measure the energy production of the PV modules and
+the energy consumption of the compute node. \emph{SwitchDoc Labs} developed
 \emph{SunControl}, an inexpensive solar power controller board, among multiple
 other things capable of these tasks \cite{switchdoc_suncontrol} and is therefore
 ideal for this testbed.
@@ -38,27 +38,98 @@ As the testbed is meant to be self-sufficient, remote communication is most
 suitable for monitoring and operations. A Secure Shell (SSH) connection to the
 Raspberry Pi is easily configured alongside the installation process of
 Raspberry Pi OS Lite via their imager
-software.\footnote{\url{https://www.raspberrypi.com/software/}} To enable
+software.\footnote{\url{https://raspberrypi.com/software/}} To enable
 functionality of SunControl, installation of SwitchDoc's Python driver code
 libraries are necessary. The official code from 2017 was written in Python
 2.7.\footnote{\url{https://github.com/switchdoclabs/SDL_Pi_SunControl}} Since
 Python 2 is deprecated since 2020 and vital official libraries are no longer
-supported,\footnote{\url{https://www.python.org/doc/sunset-python-2/}} the
-codebase needed to be refactored and ported from Python 2.7 to
+supported,\footnote{\url{https://python.org/doc/sunset-python-2/}} the codebase
+needed to be refactored and ported from Python 2.7 to
 3.7.\footnote{\url{https://github.com/marvin-steinke/SDL_Pi_SunControl}} To
 allow SunControl to communicate with the Raspberry Pi, Inter-Integrated Circuit
-(I$^2$C) support for the ARM core and Linux kernel need to be enabled.
+(I$^2$C) support for the ARM core and Linux kernel need to be
+enabled.\footnote{\label{footnote:config}\url{https://github.com/marvin-steinke/bachelors_thesis/blob/master/src/config/config.txt}}
 
 \subsection{Energy Preservation}
 
-The Raspberry Pi has many components, of which some might not be needed for the
+The Raspberry Pi has many components, some of which might not be needed for the
 specific use-cases of the testbed, but still make up a large portion of overall
-energy consumption. Some of these can be disabled, such as the Bluetooth and
-HDMI module and the USB ports. %TODO provide graphs to proof
+energy consumption. The Bluetooth and HDMI module and the USB ports can be
+disabled to preserve
+energy.\footref{footnote:config}\footnote{\url{https://github.com/marvin-steinke/bachelors_thesis/blob/master/src/config/rc.local}}
+Figure \ref{fig:idle} displays the idle power usage of the Raspberry Pi 3b+ over
+the span of two minutes with the three components enabled and disabled
+respectively. Enabling the components yields in an average energy consumption of
+\mbox{2.1 W}, while disabling them results in an average consumption of just
+\mbox{0.93 W}, preserving \mbox{1.17 W} in total. Since these components serve
+no purpose in this version of the testbed, they are disabled in order to
+preserve energy.
 
-%For dynamic resource management, the frequency and voltage of the Raspberry Pi's
-%\textsc{ARM CPU} can be scaled dynamically e.g. with the \texttt{cpufreq}
-%subsystem\footnote{\url{https://community.arm.com/oss-platforms/w/docs/528/cpufreq-dvfs}}.
+\begin{figure}[H]
+    \centering
+    \input{./plots/idle}
+    \caption{Idle power consumption with Bluetooth, HDMI and USB enabled and disabled}
+    \label{fig:idle}
+\end{figure}
 
 \section{Implementation of Energy-Aware Resource Management}
 \label{sec:implementation_of_energy-aware_resource_management}
+
+Because the CPU is the main consumer of energy in the Raspberry Pi, scaling the
+voltage and frequency of the CPU to control its consumption is the most viable
+approach to control total energy consumption.
+%the frequency and voltage of the Raspberry Pi's ARM CPU can be scaled
+%dynamically with the \texttt{cpufreq}
+%subsystem\footnote{\url{https://community.arm.com/oss-platforms/w/docs/528/cpufreq-dvfs}}.
+
+\subsection{DVFS versus \texttt{cpulimit}}
+
+\subsection{Scaling the Output of the PV Modules}
+
+The PV modules utilized in this version of the testbed are also distributed by
+SwitchDoc Labs. They state that one panel is capable of generating a peak
+current of \mbox{330 mA} at \mbox{6
+V}.\footnote{\url{https://switchdoc.com/2016/06/solar-panel-comparison-sunlight-test/}}
+However, even while testing under strong sunlight, the modules were only capable
+of generating a third of the current that is stated. In figure \ref{fig:load} it
+can be observed that four of these PV modules would roughly only be capable of
+supplying the necessary current to the Raspberry Pi clocked at \mbox{400 MHz},
+the lowest possible clock frequency. With this current supplied, there is no
+margin for adjusting the energy consumption of the compute node to the
+production of the PV modules, as the clock speed could never surpass \mbox{400
+MHz}. Therefore to ensure an environment, in which the whole spectrum of energy
+consumed by the compute node at different frequencies can be supplied in theory,
+measured currents generated by the PV modules are multiplied by the factor
+three. Since the currents are still measured and reacted to in real time, the
+requirements for a testbed are still met, as presented in section
+\ref{sec:testbeds_emulations_and_simulations}.
+
+\begin{figure}
+    \centering
+    \input{./plots/freq_load}
+    \caption{Power usage under load with different frequencies}
+    \label{fig:load}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{./plots/freq_mean}
+    \caption{Mean power usage under load with different frequencies}
+    \label{fig:mean}
+\end{figure}
+
+\subsection{The Approach}
+
+\begin{figure}
+    \centering
+    \input{./plots/aware}
+    \caption{aware}
+    \label{fig:aware}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{./plots/aware_freqs}
+    \caption{aware freqs}
+    \label{fig:aware_freqs}
+\end{figure}
