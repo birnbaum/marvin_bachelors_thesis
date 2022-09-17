@@ -1,13 +1,6 @@
-\documentclass{standalone}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
-
-\begin{document}
-
 \begin{tikzpicture}
     \begin{axis}[
-        title={Mean Power Usage Under Load Using DVFS},
-        xlabel={Current in mAh},
+        xlabel={Current in mA at 5 V},
         ylabel={Frequency in MHz},
         ytick=data,
         xtick=data,
@@ -30,6 +23,3 @@
     };
     \end{axis}
 \end{tikzpicture}
-\hspace{.5cm}
-
-\end{document}

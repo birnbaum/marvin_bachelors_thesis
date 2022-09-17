@@ -1,14 +1,7 @@
-\documentclass{standalone}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
-
-\begin{document}
-
 \begin{tikzpicture}
     \begin{axis}[
-        title={Mean Power Usage Under Load Using \texttt{cpulimit}},
-        xlabel={Current in mAh},
-        ylabel={Percentage of CPU Used},
+        xlabel={Current in mA at 5 V},
+        ylabel={Percentage of CPU used},
         ytick=data,
         %xtick=data,
         ymajorgrids=true,
@@ -31,6 +24,3 @@
     };
     \end{axis}
 \end{tikzpicture}
-\hspace{.5cm}
-
-\end{document}

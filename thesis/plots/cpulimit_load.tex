@@ -1,14 +1,7 @@
-\documentclass{standalone}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
-
-\begin{document}
-
 \begin{tikzpicture}
     \begin{axis}[
-        title={Power Usage Under Load Using \texttt{cpulimit}},
-        xlabel={Time in Seconds},
-        ylabel={Current in mAh},
+        xlabel={Time in seconds},
+        ylabel={Current in mA at 5 V},
         %ytick=data,
         xtick={0,10,...,120},
         ymajorgrids=true,
@@ -1014,6 +1007,3 @@
     \addlegendentry{400\%}
     \end{axis}
 \end{tikzpicture}
-\hspace{.5cm}
-
-\end{document}

@@ -1,14 +1,7 @@
-\documentclass{standalone}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
-
-\begin{document}
-
 \begin{tikzpicture}
     \begin{axis}[
-        title={Power Usage Under Load Using DVFS},
-        xlabel={Time in Seconds},
-        ylabel={Current in mAh},
+        xlabel={Time in seconds},
+        ylabel={Current in mA at 5 V},
         %ytick=data,
         xtick={0,10,...,120},
         ymajorgrids=true,
@@ -16,8 +9,8 @@
         cycle list name=color list,
         legend pos=outer north east,
         grid style=dashed,
-        height=10cm,
-        width=15cm,
+        height=8cm,
+        width=10cm,
         scale only axis=true,
     ]
     \addplot
@@ -890,4 +883,3 @@
     \addlegendentry{1200 MHz} % 676.65
     \end{axis}
 \end{tikzpicture}
-\end{document}
