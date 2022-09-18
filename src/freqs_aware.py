@@ -51,7 +51,7 @@ def log_search_step(current_should, L, R, last_modified):
             L = Bound()
         last_modified = None
     # If current_should is now between current_is and
-    # Bound.current of the last is_mod bound, there is
+    # Bound.current of the last modified bound, there is
     # no frequency inbetween and the lower frequency of
     # of the two is chosen
     if L == last_modified:
@@ -99,8 +99,8 @@ def aware(input_file, output_file):
     while solar_currents:
         pi_currents.append(pi_current())
         pi_freqs.append(cpu.get_frequencies()[0])
-        if len(window) > 4:
-            window.pop(0)
+        #if len(window) > 4:
+        #    window.pop(0)
         window.append(solar_currents.pop(0))
         if not search.is_alive() and len(window) == 5:
             search = Thread(
@@ -108,7 +108,8 @@ def aware(input_file, output_file):
                         args=(mean(window), L, R, last_modified)
                      )
             search.start()
-        sleep(1)
+            window = []
+        sleep(2)
     tex_plot(output_file, pi_currents, 'Pi Currents')
     tex_plot(output_file, pi_freqs, 'Pi Frequencies')
 
