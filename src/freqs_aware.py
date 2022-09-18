@@ -108,7 +108,6 @@ def aware(input_file, output_file):
                         args=(mean(window), L, R, last_modified)
                      )
             search.start()
-            window = []
         sleep(1)
     tex_plot(output_file, pi_currents, 'Pi Currents')
     tex_plot(output_file, pi_freqs, 'Pi Frequencies')
