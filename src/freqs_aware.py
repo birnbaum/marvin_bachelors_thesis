@@ -104,10 +104,7 @@ def aware(input_file, output_file):
             window.pop(0)
         window.append(solar_currents.pop(0))
         if not search.is_alive() and len(window) == 5:
-            search = Thread(
-                        target=log_search_step,
-                        args=(mean(window), L, R, last_modified)
-                     )
+            search = Thread(target=log_search_step, args=(mean(window),))
             search.start()
         sleep(1)
     tex_plot(output_file, pi_currents, 'Pi Currents')
