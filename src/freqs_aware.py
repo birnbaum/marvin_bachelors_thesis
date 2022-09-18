@@ -7,6 +7,11 @@ from threading import Thread
 from cpufreq import cpuFreq
 from lib import SDL_Pi_SunControl as sdl
 
+class Bound:
+    def __init__(self, index = 0, current = 0):
+        self.index = index
+        self.current = current
+
 cpu = cpuFreq()
 # suncontrol config
 sc = sdl.SDL_Pi_SunControl(
@@ -16,6 +21,10 @@ sc = sdl.SDL_Pi_SunControl(
         WatchDog_Done = 13,
         WatchDog_Wake = 16
      )
+
+L = Bound()
+R = Bound()
+last_modified = None
 
 def read_file(file_name):
     with open(file_name) as file:
@@ -31,12 +40,8 @@ def tex_plot(output_file, data, legendentry):
 def pi_current():
     return int(sc.readChannelCurrentmA(sdl.SunControl_OUTPUT_CHANNEL))
 
-class Bound:
-    def __init__(self, index = 0, current = 0):
-        self.index = index
-        self.current = current
-
-def log_search_step(current_should, L, R, last_modified):
+def log_search_step(current_should):
+    global L, R, last_modified
     current_is = pi_current()
     freqs = cpu.available_frequencies
     freq_index = freqs.index(cpu.get_frequencies()[0])
@@ -59,13 +64,13 @@ def log_search_step(current_should, L, R, last_modified):
             # frequency of the left bound is currently higher
             cpu.set_max_frequencies(freqs[L.index - 1])
             sleep(5)
-            return L, R, last_modified
+            return
         else:
             last_modified = None
     if R == last_modified:
         if current_is <= current_should <= R.current:
             # frequency is already the lower one of the two
-            return L, R, last_modified
+            return
         else:
             last_modified = None
     M = floor((L.index + R.index) / 2)
@@ -84,7 +89,6 @@ def log_search_step(current_should, L, R, last_modified):
         new_index = M - 1 if M > 0 else M
         R = Bound(new_index, current_is)
         last_modified = R
-    return L, R, last_modified
 
 def aware(input_file, output_file):
     solar_currents = read_file(input_file)
@@ -92,15 +96,12 @@ def aware(input_file, output_file):
     pi_currents = []
     pi_freqs = []
     window = []
-    L = Bound()
-    R = Bound()
-    last_modified = None
     search = Thread()
     while solar_currents:
         pi_currents.append(pi_current())
         pi_freqs.append(cpu.get_frequencies()[0])
-        #if len(window) > 4:
-        #    window.pop(0)
+        if len(window) > 4:
+            window.pop(0)
         window.append(solar_currents.pop(0))
         if not search.is_alive() and len(window) == 5:
             search = Thread(
@@ -108,8 +109,7 @@ def aware(input_file, output_file):
                         args=(mean(window), L, R, last_modified)
                      )
             search.start()
-            window = []
-        sleep(2)
+        sleep(1)
     tex_plot(output_file, pi_currents, 'Pi Currents')
     tex_plot(output_file, pi_freqs, 'Pi Frequencies')
 
