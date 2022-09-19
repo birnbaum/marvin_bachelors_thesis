@@ -26,9 +26,11 @@ L = Bound()
 R = Bound()
 last_modified = None
 
-def read_file(file_name):
+def read_solar_currents(file_name) -> Iterator:
     with open(file_name) as file:
-        return [int(float(line.rstrip())) * 3 for line in file]
+        l = [int(float(line.rstrip())) * 3 for line in file]
+    for el in l:
+        yield reverse(el)
 
 def tex_plot(output_file, data, legendentry):
     with open(output_file, 'a') as file:
@@ -91,18 +93,21 @@ def log_search_step(current_should):
         last_modified = R
 
 def aware(input_file, output_file):
-    solar_currents = read_file(input_file)
+    solar_currents = read_solar_currents(input_file)
     #tex_plot(output_file, solar_currents, 'Solar Currents')
     pi_currents = []
     pi_freqs = []
     window = []
     search = Thread()
-    while solar_currents:
+    while True:
         pi_currents.append(pi_current())
         pi_freqs.append(cpu.get_frequencies()[0])
         if len(window) > 4:
             window.pop(0)
-        window.append(solar_currents.pop(0))
+        try:
+            window.append(solar_currents.next())
+        except StopIteration:
+            break
         if not search.is_alive() and len(window) == 5:
             search = Thread(target=log_search_step, args=(mean(window),))
             search.start()
